@@ -3,8 +3,10 @@
     public enum QuestionType
     {
         Paragraph = 1,
-        Numeric,
+        Number,
         Date,
-        Boolean
+        Boolean,
+        Dropdown,
+        MultipleChoice
     }
 }

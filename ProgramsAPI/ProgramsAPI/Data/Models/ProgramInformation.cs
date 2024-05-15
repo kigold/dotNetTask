@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProgramsAPI.Data.Models
 {
-    public class ProgramInfo
+    public class ProgramInformation
     {
         [Key]
         public Guid Id { get; set; }
