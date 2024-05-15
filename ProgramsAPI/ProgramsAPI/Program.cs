@@ -20,6 +20,7 @@ builder.Services.AddDbContext<ProgramDbContext>(options => options.UseCosmos(dbS
 
 builder.Services.AddHostedService<DbSetupWorker>();
 
+builder.Services.AddExceptionHandler<ExceptionHandler>();
 var app = builder.Build();
 
 app.MapProgramEndpoints();
@@ -32,6 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler(_ => { });
 
 app.Run();
 

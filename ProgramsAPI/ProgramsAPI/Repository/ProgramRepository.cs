@@ -21,32 +21,8 @@ namespace ProgramsAPI.Repository
 
         public async Task UpdateProgram(ProgramQuestion request)
         {
-            //var program = await _context.ProgramInformation.FindAsync(request.Id);
             _context.Update(request);
             await _context.SaveChangesAsync();
-            //program.Title = request.Title;
-            //program.Description = request.Description;
-            //foreach(var info in program.PersonalInformation)
-            //{
-            //    var update = request.PersonalInformation.FirstOrDefault(x => x.Id == info.Id);
-            //    if (update != null)
-            //    {
-            //        info.Question = update.Question;
-            //        info.IsMandatory = update.IsMandatory;
-            //        info.IsInternal = update.IsInternal;
-            //        info.Hide = update.Hide;
-            //    }
-            //}
-
-            //foreach (var question in program.AdditionalQuestions)
-            //{
-            //    var update = request.AdditionalQuestions.FirstOrDefault(x => x.Id == question.Id);
-            //    if (update != null)
-            //    {
-            //        question.Question = update.Question;
-            //        question.QuestionType = update.QuestionType;
-            //    }
-            //}
         }
 
         public async Task CreateProgramResponse(ProgramResponse request)
