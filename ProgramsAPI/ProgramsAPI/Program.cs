@@ -1,9 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using ProgramsAPI.Data;
+using ProgramsAPI.Settings;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var dbSetting = builder.Configuration.GetSection(nameof(DbConfig)).Get<DbConfig>();
+builder.Services.AddDbContext<ProgramDbContext>(options => options.UseCosmos(dbSetting!.ConnectionString, dbSetting.DatabaseName));
 
 var app = builder.Build();
 
