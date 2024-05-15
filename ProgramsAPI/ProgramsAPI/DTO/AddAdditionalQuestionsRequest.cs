@@ -2,5 +2,5 @@
 
 namespace ProgramsAPI.DTO
 {
-    public record AddAdditionalQuestionsRequest(string Question, QuestionType QuestionType);
+    public record AddAdditionalQuestionsRequest(string Question, QuestionType QuestionType, string[] Choices);
 }

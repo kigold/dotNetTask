@@ -7,7 +7,7 @@ namespace ProgramsAPI.Api
     public static class ProgramEndpoints
     {
         private const string PATH_BASE = "program";
-        private const string TAGS = "progam api";
+        private const string TAGS = "program api";
 
         public static WebApplication MapProgramEndpoints(this WebApplication app)
         {
@@ -15,11 +15,11 @@ namespace ProgramsAPI.Api
 
             programGroup.MapPost("/", CreateProgram);
             programGroup.MapPut("/{{id}}", UpdateProgram);
-            programGroup.MapPost("/data/{{programId}}", CreateProgramData);
+            programGroup.MapPost("/response/{{programId}}", CreateProgramResponse);
             programGroup.MapGet("/", GetProgram);
             programGroup.MapGet("/{{id}}", GetPrograms);
-            programGroup.MapGet("/data", GetAllProgramData);
-            programGroup.MapGet("/data/{{id}}", GetProgramData);
+            programGroup.MapGet("/response", GetAllProgramResponse);
+            programGroup.MapGet("/response/{{id}}", GetProgramResponse);
 
             return app;
         }
@@ -40,42 +40,42 @@ namespace ProgramsAPI.Api
             return TypedResults.NoContent();
         }
 
-        //POST /data/{{programId}}
-        public static async Task<Results<NoContent, ValidationProblem>> CreateProgramData(IProgramService programService, Guid programId, CreateProgramDataRequest request)
+        //POST /response/{{programId}}
+        public static async Task<Results<NoContent, ValidationProblem>> CreateProgramResponse(IProgramService programService, Guid programId, CreateProgramDataRequest[] request)
         {
-            await programService.CreateProgramData(programId, request);
+            await programService.CreateProgramResponse(programId, request);
 
             return TypedResults.NoContent();
         }
 
         //GET /
-        public static async Task<Results<Ok<ProgramInfoResponse[]>, ValidationProblem>> GetProgram(IProgramService programService)
+        public static async Task<Results<Ok<ProgramQuestionsResponse[]>, ValidationProblem>> GetProgram(IProgramService programService)
         {
-            var result = await programService.GetProgramInformation();
+            var result = await programService.GetProgramQuestions();
 
             return TypedResults.Ok(result);
         }
 
         //GET /{{id}}
-        public static async Task<Results<Ok<ProgramInfoResponse>, ValidationProblem>> GetPrograms(IProgramService programService, Guid id)
+        public static async Task<Results<Ok<ProgramQuestionsResponse>, ValidationProblem>> GetPrograms(IProgramService programService, Guid id)
         {
-            var result = await programService.GetProgramInformation(id);
+            var result = await programService.GetProgramQuestions(id);
 
             return TypedResults.Ok(result);
         }
 
-        //GET /data
-        public static async Task<Results<Ok<ProgramDataResponse[]>, ValidationProblem>> GetAllProgramData(IProgramService programService)
+        //GET /response
+        public static async Task<Results<Ok<ProgramAnswerResponse[]>, ValidationProblem>> GetAllProgramResponse(IProgramService programService)
         {
-            var result = await programService.GetProgramData();
+            var result = await programService.GetProgramResponse();
 
             return TypedResults.Ok(result);
         }
 
-        //GET /data/{{id}}
-        public static async Task<Results<Ok<ProgramDataResponse[]>, ValidationProblem>> GetProgramData(IProgramService programService, Guid id)
+        //GET /response/{{id}}
+        public static async Task<Results<Ok<ProgramAnswerResponse[]>, ValidationProblem>> GetProgramResponse(IProgramService programService, Guid id)
         {
-            var result = await programService.GetProgramData(id);
+            var result = await programService.GetProgramResponse(id);
 
             return TypedResults.Ok(result);
         }

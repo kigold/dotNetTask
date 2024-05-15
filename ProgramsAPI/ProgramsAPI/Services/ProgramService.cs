@@ -15,7 +15,7 @@ namespace ProgramsAPI.Services
 
         public async Task CreateProgram(CreateProgramRequest request)
         {
-            var program = new ProgramInformation
+            var program = new ProgramQuestion
             {
                 Title = request.Title,
                 Description = request.Description,
@@ -23,6 +23,7 @@ namespace ProgramsAPI.Services
                 {
                     Question = x.Question,
                     QuestionType = x.QuestionType,
+                    Choices = x.Choices?.Select(x => new Choice { Response = x }).ToArray() ?? Array.Empty<Choice>() 
                 }).ToArray(),
                 PersonalInformation = GeneratePersonalInfo(request.PersonalInformation)
             };
@@ -31,8 +32,9 @@ namespace ProgramsAPI.Services
 
         public async Task UpdateProgram(Guid id, CreateProgramRequest request)
         {
-            var program = new ProgramInformation
+            var program = new ProgramQuestion
             {
+                Id = id,
                 Title = request.Title,
                 Description = request.Description,
                 AdditionalQuestions = request.AdditionalQuestions.Select(x => new AdditionalQuestion
@@ -45,40 +47,44 @@ namespace ProgramsAPI.Services
             await _programRepository.UpdateProgram(program);
         }
 
-        public async Task CreateProgramData(Guid programId, CreateProgramDataRequest request)
+        public async Task CreateProgramResponse(Guid programId, CreateProgramDataRequest[] request)
         {
-            var program = new ProgramData
+            var programResponse = new ProgramResponse
             {
                 ProgramId = programId,
-                QuestionId = request.QuestionId,
-                MultipleChoice = request.MultipleChoice.Select(x => new Choice { Response = x}).ToArray(),
-                Response = request.Response
+                Responses = request.Select(x => new Response
+                {
+                    QuestionId = x.QuestionId,
+                    MultipleChoice = x.MultipleChoice.Select(x => new Choice { Response = x }).ToArray(),
+                    Answer = x.Response
+                }).ToArray()
+
             };
-            await _programRepository.CreateProgramData(program);
+            await _programRepository.CreateProgramResponse(programResponse);
         }
 
-        public async Task<ProgramDataResponse[]> GetProgramData(Guid id)
+        public async Task<ProgramAnswerResponse[]> GetProgramResponse(Guid id)
         {
-            var programData = await _programRepository.GetProgramData(id);
+            var programData = await _programRepository.GetProgramResponse(id);
             return programData.Select(x => ToProgramDataResponse(x)).ToArray();
         }
 
-        public async Task<ProgramDataResponse[]> GetProgramData()
+        public async Task<ProgramAnswerResponse[]> GetProgramResponse()
         {
-            var programData = await _programRepository.GetProgramData();
+            var programData = await _programRepository.GetProgramResponse();
             return programData.Select(x => ToProgramDataResponse(x)).ToArray();
         }
 
-        public async Task<ProgramInfoResponse> GetProgramInformation(Guid id)
+        public async Task<ProgramQuestionsResponse> GetProgramQuestions(Guid id)
         {
-            var programInfo = await _programRepository.GetProgramInformation(id);
-            return ToProgramInfoResponse(programInfo);
+            var programQuestions = await _programRepository.GetProgramQuestions(id);
+            return ToProgramQuestionsResponse(programQuestions);
         }
 
-        public async Task<ProgramInfoResponse[]> GetProgramInformation()
+        public async Task<ProgramQuestionsResponse[]> GetProgramQuestions()
         {
-            var programInfo = await _programRepository.GetProgramInformation();
-            return programInfo.Select(x => ToProgramInfoResponse(x)).ToArray();
+            var programQuestions = await _programRepository.GetProgramQuestions();
+            return programQuestions.Select(x => ToProgramQuestionsResponse(x)).ToArray();
         }
 
         private PersonalInfoResponse ToPersonalInfoResponse (PersonalInformation source)
@@ -92,16 +98,14 @@ namespace ProgramsAPI.Services
                 );
         }
 
-        private ProgramInfoResponse ToProgramInfoResponse(ProgramInformation source)
+        private ProgramQuestionsResponse ToProgramQuestionsResponse(ProgramQuestion source)
         {
-            return new ProgramInfoResponse(
+            return new ProgramQuestionsResponse(
                     source.Id,
                     source.Title,
                     source.Description,
                     source.PersonalInformation.Select(x => ToPersonalInfoResponse(x)).ToArray(),
-                    source.AdditionalQuestions.Select(x => ToAdditionalQuestions(x)).ToArray()
-                    
-                    
+                    source.AdditionalQuestions.Select(x => ToAdditionalQuestions(x)).ToArray()                                   
                 );
         }
 
@@ -110,18 +114,21 @@ namespace ProgramsAPI.Services
             return new AdditionalQuestionResponse(
                     source.Id,
                     source.Question,
-                    source.QuestionType
+                    source.QuestionType,
+                    source.Choices.Select(x => x.Response).ToArray()
                 );
         }
 
-        private ProgramDataResponse ToProgramDataResponse(ProgramData source)
+        private ProgramAnswerResponse ToProgramDataResponse(ProgramResponse source)
         {
-            return new ProgramDataResponse(
+            return new ProgramAnswerResponse(
                 source.Id,
                 source.ProgramId,
-                source.QuestionId,
-                source.Response,
-                source.MultipleChoice.Select(x => x.Response).ToArray()
+                source.Responses.Select(x => new ProgramAnswer(
+                        x.QuestionId,
+                        x.Answer,
+                        x.MultipleChoice.Select(x => x.Response).ToArray()
+                    )).ToArray()
                 );
         }
 

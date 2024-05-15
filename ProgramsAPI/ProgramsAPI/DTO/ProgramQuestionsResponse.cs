@@ -1,7 +1,7 @@
 ﻿
 namespace ProgramsAPI.DTO
 {
-    public record ProgramInfoResponse(
+    public record ProgramQuestionsResponse(
             Guid Id,
             string Title,
             string Description,

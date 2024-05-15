@@ -6,10 +6,10 @@ namespace ProgramsAPI.Services
     {
         Task CreateProgram(CreateProgramRequest request);
         Task UpdateProgram(Guid id, CreateProgramRequest request);
-        Task CreateProgramData(Guid programId, CreateProgramDataRequest request);
-        Task<ProgramInfoResponse> GetProgramInformation(Guid id);
-        Task<ProgramInfoResponse[]> GetProgramInformation();
-        Task<ProgramDataResponse[]> GetProgramData(Guid id);
-        Task<ProgramDataResponse[]> GetProgramData();
+        Task CreateProgramResponse(Guid programId, CreateProgramDataRequest[] request);
+        Task<ProgramQuestionsResponse> GetProgramQuestions(Guid id);
+        Task<ProgramQuestionsResponse[]> GetProgramQuestions();
+        Task<ProgramAnswerResponse[]> GetProgramResponse(Guid id);
+        Task<ProgramAnswerResponse[]> GetProgramResponse();
     }
 }

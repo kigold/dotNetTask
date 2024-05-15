@@ -7,20 +7,20 @@ namespace ProgramsAPI.Data
     {
         public ProgramDbContext(DbContextOptions<ProgramDbContext> options) : base(options) { }
 
-        public DbSet<ProgramInformation> ProgramInformation { get; set; }
-        public DbSet<ProgramData> ProgramData { get; set; }
+        public DbSet<ProgramQuestion> ProgramQuestions { get; set; }
+        public DbSet<ProgramResponse> ProgramResponse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.HasDefaultContainer("ProgramDB");
 
-            builder.Entity<ProgramInformation>()
-                .ToContainer(nameof(ProgramInformation))
+            builder.Entity<ProgramQuestion>()
+                .ToContainer(nameof(ProgramQuestion))
                 .HasPartitionKey(c => c.Id)
                 .HasNoDiscriminator();
 
-            builder.Entity<ProgramData>()
-                .ToContainer(nameof(ProgramData))
+            builder.Entity<ProgramResponse>()
+                .ToContainer(nameof(ProgramResponse))
                 .HasPartitionKey(c => c.ProgramId)
                 .HasNoDiscriminator();
         }

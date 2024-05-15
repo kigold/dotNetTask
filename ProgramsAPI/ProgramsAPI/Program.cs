@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProgramsAPI;
 using ProgramsAPI.Api;
 using ProgramsAPI.Data;
 using ProgramsAPI.Repository;
@@ -16,6 +17,8 @@ builder.Services.AddScoped<IProgramRepository, ProgramRepository>();
 
 var dbSetting = builder.Configuration.GetSection(nameof(DbConfig)).Get<DbConfig>();
 builder.Services.AddDbContext<ProgramDbContext>(options => options.UseCosmos(dbSetting!.ConnectionString, dbSetting.DatabaseName));
+
+builder.Services.AddHostedService<DbSetupWorker>();
 
 var app = builder.Build();
 

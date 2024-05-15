@@ -4,12 +4,12 @@ namespace ProgramsAPI.Repository
 {
     public interface IProgramRepository
     {
-        Task CreateProgram(ProgramInformation request);
-        Task UpdateProgram(ProgramInformation request);
-        Task CreateProgramData(ProgramData request);
-        Task<ProgramInformation> GetProgramInformation(Guid id);
-        Task<ProgramInformation[]> GetProgramInformation();
-        Task<ProgramData[]> GetProgramData(Guid programId);
-        Task<ProgramData[]> GetProgramData();
+        Task CreateProgram(ProgramQuestion request);
+        Task UpdateProgram(ProgramQuestion request);
+        Task CreateProgramResponse(ProgramResponse request);
+        Task<ProgramQuestion> GetProgramQuestions(Guid id);
+        Task<ProgramQuestion[]> GetProgramQuestions();
+        Task<ProgramResponse[]> GetProgramResponse(Guid programId);
+        Task<ProgramResponse[]> GetProgramResponse();
     }
 }

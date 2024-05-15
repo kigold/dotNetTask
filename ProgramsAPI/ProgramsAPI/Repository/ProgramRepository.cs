@@ -13,16 +13,16 @@ namespace ProgramsAPI.Repository
             _context = context;
         }
 
-        public async Task CreateProgram(ProgramInformation request)
+        public async Task CreateProgram(ProgramQuestion request)
         {
             await _context.AddAsync(request);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateProgram(ProgramInformation request)
+        public async Task UpdateProgram(ProgramQuestion request)
         {
-            var program = await _context.ProgramInformation.FindAsync(request.Id);
-            _context.Update(program!);
+            //var program = await _context.ProgramInformation.FindAsync(request.Id);
+            _context.Update(request);
             await _context.SaveChangesAsync();
             //program.Title = request.Title;
             //program.Description = request.Description;
@@ -49,36 +49,36 @@ namespace ProgramsAPI.Repository
             //}
         }
 
-        public async Task CreateProgramData(ProgramData request)
+        public async Task CreateProgramResponse(ProgramResponse request)
         {
             await _context.AddAsync(request);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ProgramData[]> GetProgramData(Guid programId)
+        public async Task<ProgramResponse[]> GetProgramResponse(Guid programId)
         {
-            var programData = await _context.ProgramData.Where(x => x.ProgramId == programId).ToListAsync();
+            var programData = await _context.ProgramResponse.Where(x => x.ProgramId == programId).ToListAsync();
 
             return programData.ToArray();
         }
 
-        public async Task<ProgramData[]> GetProgramData()
+        public async Task<ProgramResponse[]> GetProgramResponse()
         {
-            var programData = await _context.ProgramData.ToListAsync();
+            var programData = await _context.ProgramResponse.ToListAsync();
 
             return programData.ToArray();
         }
 
-        public async Task<ProgramInformation> GetProgramInformation(Guid id)
+        public async Task<ProgramQuestion> GetProgramQuestions(Guid id)
         {
-            var programInfo = await _context.ProgramInformation.FindAsync(id);
+            var programInfo = await _context.ProgramQuestions.FindAsync(id);
 
             return programInfo!;
         }
 
-        public async Task<ProgramInformation[]> GetProgramInformation()
+        public async Task<ProgramQuestion[]> GetProgramQuestions()
         {
-            var programInfo = await _context.ProgramInformation.ToListAsync();
+            var programInfo = await _context.ProgramQuestions.ToListAsync();
 
             return programInfo.ToArray();
         }

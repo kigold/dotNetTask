@@ -5,6 +5,7 @@ namespace ProgramsAPI.DTO
     public record AdditionalQuestionResponse(
             Guid Id,
             string Question,
-            QuestionType QuestionType
+            QuestionType QuestionType,
+            string[] Choices
         );
 }
