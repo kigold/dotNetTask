@@ -5,6 +5,6 @@ namespace ProgramsAPI.DTO
             string Title,
             string Description,
             AddAdditionalQuestionsRequest[] AdditionalQuestions,
-            PersonalInfoRequest personalInfoSetting
+            PersonalInfoRequest PersonalInformation
         );
 }

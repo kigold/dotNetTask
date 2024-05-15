@@ -9,6 +9,6 @@ namespace ProgramsAPI.Data.Models
         public Guid ProgramId { get; set; }
         public Guid QuestionId { get; set; }
         public string Response {  get; set; } = string.Empty;
-        public string[] MultipleResponse { get; set; } = new string[0];
+        public ICollection<Choice> MultipleChoice { get; set; } = new Choice[0];
     }
 }

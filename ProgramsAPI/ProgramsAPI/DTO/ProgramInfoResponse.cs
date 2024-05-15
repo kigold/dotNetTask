@@ -5,7 +5,7 @@ namespace ProgramsAPI.DTO
             Guid Id,
             string Title,
             string Description,
-            PersonalInfoResponse PersonalInformation,
-            AdditionalQuestionResponse AdditionalQuestionResponse
+            PersonalInfoResponse[] PersonalInformation,
+            AdditionalQuestionResponse[] AdditionalQuestionResponse
         );
 }

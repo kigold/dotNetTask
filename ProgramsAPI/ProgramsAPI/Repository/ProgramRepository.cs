@@ -19,7 +19,7 @@ namespace ProgramsAPI.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdatePersonalQuestions(ProgramInformation request)
+        public async Task UpdateProgram(ProgramInformation request)
         {
             var program = await _context.ProgramInformation.FindAsync(request.Id);
             _context.Update(program!);
@@ -47,6 +47,12 @@ namespace ProgramsAPI.Repository
             //        question.QuestionType = update.QuestionType;
             //    }
             //}
+        }
+
+        public async Task CreateProgramData(ProgramData request)
+        {
+            await _context.AddAsync(request);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<ProgramData[]> GetProgramData(Guid programId)
